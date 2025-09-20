@@ -1,25 +1,6 @@
 defmodule ZornWeb.TrainLive do
   use ZornWeb, :live_view
 
-  @stats [
-    %{
-      name: "Strength",
-      desc: "Strength incerases carry weight and melee damage"
-    },
-    %{
-      name: "Agility",
-      desc: "Agility increases dodge chance and bow damage"
-    },
-    %{
-      name: "Intelligence",
-      desc: "Intelligence increases mana and spell damage"
-    },
-    %{
-      name: "Endurance",
-      desc: "Endurance increases travel speed and recovery rates"
-    }
-  ]
-
   def mount(_params, _session, socket) do
     if connected?(socket), do: Process.send_after(self(), :tick, 2000)
 
@@ -27,10 +8,9 @@ defmodule ZornWeb.TrainLive do
       :ok,
       assign(
         socket,
-        curr_stats: %{"Strength" => 100, "Agility" =>  90, "Intelligence" => 100, "Endurance" => 100},
         energy_to_train: 10,
         energy: 100,
-        stats: @stats
+        stats: Zorn.Stats.list_stats()
       )
     }
   end
@@ -47,15 +27,13 @@ defmodule ZornWeb.TrainLive do
   end
 
   def handle_event("train", %{"stat" => stat}, socket) do
+    # stat_to_update = socket.assigns.stats[stat]
+
     socket = assign(
       socket,
-      curr_stats: Map.update!(
-        socket.assigns.curr_stats,
-        stat,
-        fn curr -> curr + 10 end
-      ),
+      # stats: %{socket.assigns.stats | stat => Map.update!(stat_to_update, :value, &(&1 + 10))},
+      stats: update_in(socket.assigns.stats, [stat, :value], &(&1 + 10)),
       energy: socket.assigns.energy - 10
-
     )
 
     {:noreply, socket}
@@ -69,13 +47,13 @@ defmodule ZornWeb.TrainLive do
         Energy {@energy}
       </h1>
       <div class="p-4">
-        <%= for stat <- @stats do %>
+        <%= for {name, stat_info} <- @stats do %>
           <div class="card bg-secondary w-96 shadow-md m-4">
             <div class="card-body">
-              <h2 class="card-title">{stat.name}: {@curr_stats[stat.name]}</h2>
-              <p>{stat.desc}</p>
+              <h2 class="card-title">{name}: {stat_info.value}</h2>
+              <p>{stat_info.desc}</p>
               <div class="card-actions justify-end">
-                <button class="btn btn-primary" phx-value-stat={stat.name} phx-click={"train"}>
+                <button class="btn btn-primary" phx-value-stat={name} phx-click={"train"}>
                 Train (-5 energy)
                 </button>
               </div>
