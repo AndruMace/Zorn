@@ -1,5 +1,6 @@
 defmodule ZornWeb.TrainLive do
   use ZornWeb, :live_view
+  import ZornWeb.CustomComponents
 
   def mount(_params, _session, socket) do
     if connected?(socket), do: Process.send_after(self(), :tick, 2000)
@@ -10,8 +11,10 @@ defmodule ZornWeb.TrainLive do
         socket,
         energy_to_train: 10,
         energy: 100,
-        stats: Zorn.Stats.list_stats()
-      )
+        stats: Zorn.Stats.list_stats(),
+        page_title: "Training"
+      ),
+      layout: {ZornWeb.Layouts, :simple},
     }
   end
 
@@ -20,7 +23,7 @@ defmodule ZornWeb.TrainLive do
 
     cond do
       socket.assigns.energy < 100  ->
-        {:noreply, assign(socket, energy: socket.assigns.energy + 5)}
+        {:noreply, assign(socket, energy: socket.assigns.energy + 1)}
       true ->
         {:noreply, socket}
     end
@@ -43,23 +46,14 @@ defmodule ZornWeb.TrainLive do
   def render(assigns) do
     ~H"""
     <div>
+
       <h1 class="p-4">
         Energy {@energy}
       </h1>
       <div class="p-4">
-        <%= for {name, stat_info} <- @stats do %>
-          <div class="card bg-secondary w-96 shadow-md m-4">
-            <div class="card-body">
-              <h2 class="card-title">{name}: {stat_info.value}</h2>
-              <p>{stat_info.desc}</p>
-              <div class="card-actions justify-end">
-                <button class="btn btn-primary" phx-value-stat={name} phx-click={"train"}>
-                Train (-5 energy)
-                </button>
-              </div>
-            </div>
-          </div>
-        <% end %>
+        <%!-- <%= for {name, stat_info} <- @stats do %> --%>
+          <.stat_card :for={{name, stat_info} <- @stats} name={name} stat_info={stat_info}/>
+        <%!-- <% end %> --%>
       </div>
     </div>
     """
