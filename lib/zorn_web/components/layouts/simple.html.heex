@@ -1,8 +1,52 @@
-<main class="px-4 py-20 sm:px-6 lg:px-8">
-    <div class="mx-auto max-w-2xl">
-        <h1 class="text-4xl">BIG LAYOUT</h1>
-        <.flash_group flash={@flash} />
-        {@inner_content}
-    </div>
-</main>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <title>Zorn</title>
+  <link phx-track-static rel="stylesheet" href={~p"/assets/app.css"} />
+</head>
+<body class="bg-gradient-to-b from-stone-900 via-stone-800 to-stone-900 text-stone-200 font-serif min-h-screen">
 
+  <!-- Topbar -->
+  <header class="bg-stone-950 shadow-md border-b border-yellow-600">
+    <div class="max-w-7xl mx-auto px-4 py-3 flex items-center justify-between">
+      <div class="text-2xl font-bold text-yellow-500 tracking-widest">
+        ✦ Zorn ✦
+      </div>
+      <nav class="space-x-6">
+        <a href="#" class="text-stone-300 hover:text-yellow-400">Home</a>
+        <a href="#" class="text-stone-300 hover:text-yellow-400">Adventures</a>
+        <a href="#" class="text-stone-300 hover:text-yellow-400">Guilds</a>
+        <a href="#" class="text-stone-300 hover:text-yellow-400">Market</a>
+      </nav>
+    </div>
+  </header>
+
+  <!-- Main Layout -->
+  <main class="max-w-7xl mx-auto px-4 py-6 grid grid-cols-4 gap-6">
+    <!-- Left Column -->
+    <aside class="col-span-1 bg-stone-800 rounded-xl shadow-lg p-4 border border-stone-700">
+      <h2 class="text-lg font-semibold text-yellow-400 mb-3">Your Stats</h2>
+      <ul class="space-y-2">
+        <li>⚔ Strength: <span class="font-bold">92</span></li>
+        <li>🏹 Agility: <span class="font-bold">74</span></li>
+        <li>📜 Intelligence: <span class="font-bold">81</span></li>
+        <li>❤️ Vitality: <span class="font-bold">67</span></li>
+      </ul>
+
+      <h2 class="text-lg font-semibold text-yellow-400 mt-6 mb-3">Quests</h2>
+      <ul class="space-y-2">
+        <li>▸ Hunt the Shadow Wolves</li>
+        <li>▸ Explore the Forgotten Ruins</li>
+        <li>▸ Gather Herbs for the Healer</li>
+      </ul>
+    </aside>
+
+    <!-- Main Content -->
+    <section class="col-span-3 bg-stone-800 rounded-xl shadow-lg p-6 border border-stone-700">
+        {@inner_content}
+    </section>
+  </main>
+
+</body>
+</html>
