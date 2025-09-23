@@ -20,7 +20,8 @@ defmodule ZornWeb.Router do
     get "/", PageController, :home
 
     live "/train", TrainLive
-    live "/inventory/:username", ProfileLive.Inventory
+    # live "/inventory/:username", ProfileLive.Inventory
+    live "/items", ItemsLive
   end
 
   # Other scopes may use custom stacks.
