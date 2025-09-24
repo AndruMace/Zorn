@@ -23,6 +23,7 @@
   </header>
 
   <!-- Main Layout -->
+  <Layouts.app flash={@flash}>
   <main class="max-w-7xl mx-auto px-4 py-6 grid grid-cols-4 gap-6">
     <!-- Left Column -->
     <aside class="col-span-1 bg-stone-800 rounded-xl shadow-lg p-4 border border-stone-700">
@@ -47,6 +48,6 @@
         {@inner_content}
     </section>
   </main>
-
+  </Layouts.app>
 </body>
 </html>
