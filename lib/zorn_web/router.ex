@@ -25,6 +25,8 @@ defmodule ZornWeb.Router do
     live "/train", TrainLive
     # live "/inventory/:username", ProfileLive.Inventory
     live "/items", ItemsLive
+
+    live "/farkle", FarkleLive
   end
 
   # Other scopes may use custom stacks.

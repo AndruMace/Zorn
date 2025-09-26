@@ -1,9 +1,11 @@
 # Seeds for generating weapons and armor
 alias Zorn.Repo
 alias Zorn.Game.Item
+alias Zorn.Accounts.User
 
-# Clear existing items (optional)
+# Clear existing items and users (optional)
 Repo.delete_all(Item)
+Repo.delete_all(User)
 
 defmodule ItemGenerator do
   # Material configurations

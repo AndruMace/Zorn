@@ -30,6 +30,19 @@ defmodule Zorn.Accounts.User do
     |> validate_email(opts)
   end
 
+  def registration_changeset(user, attrs, opts \\ []) do
+    user
+    |> cast(attrs, [:username])
+    |>validate_email(opts)
+    |> validate_username()
+  end
+
+  defp validate_username(changeset) do
+    changeset
+    |>validate_required([:username])
+    |> validate_length(:username, min: 3, max: 20)
+  end
+
   defp validate_email(changeset, opts) do
     changeset =
       changeset
