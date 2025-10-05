@@ -46,7 +46,6 @@ defmodule ZornWeb.TrainLive do
   def render(assigns) do
     ~H"""
     <div>
-
       <h1 class="p-4">
         Energy {@energy}
       </h1>

@@ -10,12 +10,13 @@ defmodule Zorn.Casino.Farkle do
     }
   end
 
-  def roll(num_dice \\ %__MODULE__{}.dice_left) do
-    Enum.map(1..num_dice, fn _ -> :rand.uniform(6) end)
+  def roll do
+    Enum.map(1..%__MODULE__{}.dice_left, fn _ -> :rand.uniform(6) end)
   end
 
   def calculate_score(roll) do
     freq = Enum.frequencies(roll)
+
     if Enum.all?(freq, fn {_, count} -> count == 1 end) do
       3000
     else

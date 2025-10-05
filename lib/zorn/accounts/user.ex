@@ -10,6 +10,13 @@ defmodule Zorn.Accounts.User do
     field :confirmed_at, :utc_datetime
     field :authenticated_at, :utc_datetime, virtual: true
 
+     # Player stats
+    field :strength, :float, default: 0.0
+    field :agility, :float, default: 0.0
+    field :endurance, :float, default: 0.0
+    field :intelligence, :float, default: 0.0
+    field :dexterity, :float, default: 0.0
+
     timestamps(type: :utc_datetime)
   end
 
@@ -95,7 +102,7 @@ defmodule Zorn.Accounts.User do
   defp validate_password(changeset, opts) do
     changeset
     |> validate_required([:password])
-    |> validate_length(:password, min: 12, max: 72)
+    |> validate_length(:password, min: 9, max: 72)
     # Examples of additional password validation:
     # |> validate_format(:password, ~r/[a-z]/, message: "at least one lower case character")
     # |> validate_format(:password, ~r/[A-Z]/, message: "at least one upper case character")
