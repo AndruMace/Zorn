@@ -13,6 +13,16 @@ defmodule ZornWeb.Router do
     plug :fetch_current_scope_for_user
   end
 
+  pipeline :authenticated do
+    plug :accepts, ["html"]
+    plug :fetch_session
+    plug :fetch_live_flash
+    plug :put_root_layout, html: {ZornWeb.Layouts, :simple}
+    plug :protect_from_forgery
+    plug :put_secure_browser_headers
+    plug :fetch_current_scope_for_user
+  end
+
   pipeline :api do
     plug :accepts, ["json"]
   end
@@ -22,7 +32,7 @@ defmodule ZornWeb.Router do
 
     get "/", PageController, :home
 
-    live "/train", TrainLive
+    # live "/train", TrainLive
     # live "/inventory/:username", ProfileLive.Inventory
     live "/items", ItemsLive
 
@@ -60,6 +70,7 @@ defmodule ZornWeb.Router do
       on_mount: [{ZornWeb.UserAuth, :require_authenticated}] do
       live "/users/settings", UserLive.Settings, :edit
       live "/users/settings/confirm-email/:token", UserLive.Settings, :confirm_email
+      live "/train", TrainLive
     end
 
     post "/users/update-password", UserSessionController, :update_password
